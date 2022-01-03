@@ -1,11 +1,19 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
 import CategoriesRoutes from './routes/categories.routes.js';
 import ProductsRoutes from './routes/products.routes.js';
 
-const connectionString = 'mongodb://localhost:27017/christmas-factory-api';
+dotenv.config();
+
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
+const dbHost = process.env.DB_HOST;
+const dbName = process.env.DB_NAME;
+
+const connectionString = `mongodb+srv://${dbUser}:${dbPassword}@${dbHost}/${dbName}?retryWrites=true&w=majority`;
 
 mongoose.connect(connectionString);
 
@@ -18,7 +26,6 @@ server.get('/', (req, res) => {
   res.json({ status: 'Server is up and running' });
 });
 
-server.use(CategoriesRoutes);
-server.use(ProductsRoutes);
+server.use('/api', [CategoriesRoutes, ProductsRoutes]);
 
 server.listen(4000, () => console.log('Server is started'));
