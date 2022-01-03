@@ -8,6 +8,8 @@ import ProductsRoutes from './routes/products.routes.js';
 
 dotenv.config();
 
+const serverPort = process.env.SERVER_PORT || 4000;
+
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
 const dbHost = process.env.DB_HOST;
@@ -28,4 +30,4 @@ server.get('/', (req, res) => {
 
 server.use('/api', [CategoriesRoutes, ProductsRoutes]);
 
-server.listen(4000, () => console.log('Server is started'));
+server.listen(serverPort, () => console.log('Server is started'));
